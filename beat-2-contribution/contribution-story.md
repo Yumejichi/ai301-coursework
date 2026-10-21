@@ -55,10 +55,9 @@ happened; these entries are the toolkit's own timeline.
 All four entries are graded. Keep every heading below, and fill each
 one in the week it belongs to.
 
-**Unit 5: [one line on the tool work]**
+**Unit 5: Adapted and tested an issue scout for React/TypeScript work**
 
-[2-4 sentences: what you built (the scout, your strategy), what broke
-or fell short, what changed because of it.]
+I updated my fit profile and wrote Python and React/TypeScript search queries, then tested them before running the scout. My first search surfaced specialized issues that did not fit me well, so I adjusted the age filter and added React to the TypeScript query. During the scan, the scout recovered from a GitHub rate limit and a field-name error, but zero-comment ties and two shader-compiler results showed that its ranking could still surface poor personal fits. I recorded those limits without changing the rubric, then graded two course-site issues and found the approved Juxtaposition UI task more focused than Kaoto's editor bug.
 
 **Unit 6: [one line on the tool work]**
 
