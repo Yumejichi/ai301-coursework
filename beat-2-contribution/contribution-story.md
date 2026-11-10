@@ -1,4 +1,4 @@
-# Contribution: [Issue Title]
+# Contribution: Add Tasks Center (/tasks) to the sidebar and mobile nav
 
 Path: `beat-2-contribution/contribution-story.md`
 
@@ -8,10 +8,9 @@ format criteria grade exactly that. Your course repo link is the whole submissio
 files and no evidence uploads are part of Assignment 5.
 
 **Contribution Number:** [1]
-**Student:** [Student name]
-**GitHub Username:** [your GitHub username, exactly as it appears on your profile - no @, no
-profile URL. Your comments upstream are identified by this name.]
-**Issue:** [GitHub issue link]
+**Student:** Yumejichi Fujita
+**GitHub Username:** Yumejichi
+**Issue:** https://github.com/lolimmlost/aidj/issues/266
 **Pull Request:** [GitHub PR link, once opened]
 
 One repository, built across units 5 to 8, telling the whole story of your real
@@ -79,24 +78,18 @@ drafted, what you did with the draft.]
 
 ## Why I Chose This Issue
 
-[1-2 paragraphs in your own words: how you searched, what your scan
-surfaced, what your scout's verdict said, why this issue fits your
-profile, and what you hope to learn. If your scout's verdict on it
-was reject and you chose it anyway, say so here and say why; choosing
-against your own tool silently is what loses points. Close with an
-honest read of the tool itself: where the scout fell short on a real
-wild search and what you changed or would change, or what convinced
-you it held up. **Record the link to your claim comment in this section too.**
-Not claimed yet? Write `claim pending` and today's date where the link goes,
-and add the link the moment your claim lands.]
+I found AIDJ #266 on the CodePath Issue Selection site. My issue-scout graded it alongside AIDJ #285, the keyboard shortcuts overlay issue, and accepted both. The Unit 6 regrade still rated #266 ambitious because the maintainer also asked for Library Growth in mobile navigation and suggested a broader navigation audit related to #288. I chose #266 because its main request is concrete and fits my JavaScript/TypeScript and React interests: make existing pages easier to reach on desktop and mobile. I preferred it over #285 because that issue involves several connected parts, including a shortcut registry, dialog, and tooltips. I also looked for a more widely used project, but the alternatives had concerns such as old reports, unfinished dependencies, or uncertain availability. For my first contribution, I decided that a focused change I can understand and test matters more than repository popularity.
+
+I want to learn how to set up an unfamiliar app, understand its navigation, write useful tests, and communicate with a maintainer. I have not run the app locally yet. In my claim, I proposed adding Tasks to desktop and mobile navigation and Library Growth to mobile, excluding the broader audit and #288, and asked whether that scope would work. I promised to report my findings by November 13; the proposed scope is not yet confirmed by the maintainer. The scout helped surface the extra scope hidden behind the good-first-issue label, but an accepted verdict did not tell me whether an issue was the best fit for my time and interests. Its November 9 regrade reused earlier evidence, so I checked the current thread before claiming rather than treating that output as a fresh availability check.
+
+**Claim comment:** https://github.com/lolimmlost/aidj/issues/266#issuecomment-6782455777
 
 **Toolkit**
 
-- Tool: issue-scout (your scout: your search strategy, your rubric),
-  and how you used it
-- What it produced: [the scan and its verdict on this issue, described]
-- Difficulties: [where it fell short, or "none met" if none did]
-- What changed: [what you patched or would update, or "nothing"]
+- Tool: I used issue-scout with my fit profile, search strategy, and rubric to scan candidates and directly grade the two AIDJ issues from the course site. I then used the patched rubric to regrade them for Unit 6.
+- What it produced: Both AIDJ #266 and #285 were accepted and rated ambitious. For #266, the difficulty note identified the maintainer's expanded navigation request as the question to clarify in my claim.
+- Difficulties: Acceptance did not guarantee a manageable contribution. The scout's regrade reused previous evidence, and it described the broader audit as expected in the same PR more strongly than the maintainer's wording supported. I also recorded that its maintainer-activity evidence for #285 cited commits alone, which did not satisfy that check.
+- What changed: I replaced the original `scope-fits-newcomer` check with `scope-feasible` and added difficulty notes, recording the replacement in scan-notes.md. This lets a single identifiable task pass while recording design uncertainty separately. Because the patch was already installed, the Unit 6 regrade did not change the AIDJ verdicts or difficulty ratings. I reread #266's discussion and narrowed my proposed scope in the claim; I would improve future recommendations by checking issue age, dependencies, and practical fit before treating an accepted issue as a strong choice.
 
 ---
 
