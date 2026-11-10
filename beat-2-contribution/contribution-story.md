@@ -55,9 +55,9 @@ happened; these entries are the toolkit's own timeline.
 All four entries are graded. Keep every heading below, and fill each
 one in the week it belongs to.
 
-**Unit 5: Adapted and tested an issue scout for React/TypeScript work**
+**Unit 5: Adapted and tested an issue scout for my Python and web-development interests**
 
-I updated my fit profile and wrote Python and React/TypeScript search queries, then tested them before running the scout. My first search surfaced specialized issues that did not fit me well, so I adjusted the age filter and added React to the TypeScript query. During the scan, the scout recovered from a GitHub rate limit and a field-name error, but zero-comment ties and two shader-compiler results showed that its ranking could still surface poor personal fits. I recorded those limits without changing the rubric, then graded two course-site issues and found the approved Juxtaposition UI task more focused than Kaoto's editor bug.
+I broadened my fit profile beyond React UI work, updated the scout's Python, JavaScript, and TypeScript search queries, and tested them before scanning. The scan ran into a GitHub rate limit and exposed ranking limits: zero-comment ties and technically acceptable issues that were poor personal fits. I recorded those limits in my scan notes and used the course Issue Selection site to find two `aidj` issues that the scout accepted. Grading showed that both are more ambitious than their “good first issue” labels suggest, so I will check the maintainer's scope before choosing and claiming one.
 
 **Unit 6: [one line on the tool work]**
 
