@@ -122,31 +122,69 @@ I want to learn how to set up an unfamiliar app, understand its navigation, writ
 
 **Environment Setup**
 
-[What a stranger would need to stand this up: your operating system,
-the relevant versions (language, runtime, package manager, the project
-itself), and how you set the project up. Then the challenges you faced
-and how you solved them, or that none came up.]
+Reproduced on November 10, 2026.
+
+- macOS with Chrome.
+- Node.js 22.23.4 and npm 10.9.9.
+- Local PostgreSQL using postgres:16-alpine through compose.local.yml.
+- App running at http://localhost:3003 with npm run dev.
+- Signed in with a local test account.
+- Desktop: wide Chrome window.
+- Mobile: Chrome DevTools iPhone 16 Pro Max emulation,
+  440 × 956, portrait. No physical phone was tested.
+- Navidrome was not configured. This reproduction checks navigation
+  links, not music playback or task execution.
+- Tested revision: b81906e73b1e19d63241f0a607fa97751525aaa7
+- Branch: main
+
+During setup, signup failed because the user table did not exist.
+I initialized the local database from the repository's schema with
+npm run db -- push. After that, signup succeeded.
 
 **Steps to Reproduce**
 
-1. [Step 1]
-2. [Step 2]
-3. [Observed result]
+1. Start the local database:
+   docker compose -f compose.yml -f compose.local.yml up -d db
+2. Start the app with npm run dev.
+3. Open http://localhost:3003 and sign in with a local test account.
+4. Open the dashboard in a wide Chrome window with the sidebar expanded.
+5. Check whether the desktop sidebar includes a Tasks link near Downloads
+   and whether Library Growth appears under Insights.
+6. Enable Chrome DevTools device emulation at 440 × 956 in portrait.
+7. Open the mobile navigation menu and check whether Tasks and
+   Library Growth appear.
+
+Expected:
+- Tasks is available next to Downloads in desktop and mobile navigation.
+- Library Growth is available in mobile navigation.
+
+Actual:
+- The desktop sidebar includes Downloads and Library Growth,
+  but no Tasks link.
+- The mobile menu includes Downloads, but neither Tasks nor
+  Library Growth.
 
 **Reproduction Evidence**
 
-- **Commit showing reproduction:** [link to commit in your fork]
-- **Screenshots/logs:** [if applicable]
-- **My findings:** [what you discovered during reproduction; an
-  honest, evidenced cannot-reproduce that led you to re-pick or ask
-  the maintainer belongs here and costs you nothing]
+- **Commit showing reproduction:** none; the tested revision is recorded above.
+- **My findings:** Tasks is missing from both navigation layouts. Library Growth is present in the desktop sidebar but missing from the mobile menu.
+
+Desktop sidebar: Tasks is missing; Library Growth is present.
+
+![Desktop sidebar before changes](evidence/desktop-sidebar-before.png)
+
+Mobile menu: Tasks and Library Growth are both missing.
+
+![Mobile navigation before changes](evidence/mobile-nav-before.png)
+
+No navigation code was changed before capturing these screenshots.
 
 **Toolkit**
 
-- Tool:
-- What it produced:
-- Difficulties:
-- What changed:
+- Tool: I used repro-check to grade my claim and reproduction report together.
+- What it produced: It checked my report and screenshots against the issue. All five checks passed after one revision.
+- Difficulties: My first draft did not identify the Git revision I tested.
+- What changed: I added the tested commit hash and branch, then reran the check successfully.
 
 ---
 
