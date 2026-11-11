@@ -58,11 +58,9 @@ one in the week it belongs to.
 
 I broadened my fit profile beyond React UI work, updated the scout's Python, JavaScript, and TypeScript search queries, and tested them before scanning. The scan ran into a GitHub rate limit and exposed ranking limits: zero-comment ties and technically acceptable issues that were poor personal fits. I recorded those limits in my scan notes and used the course Issue Selection site to find two `aidj` issues that the scout accepted. Grading showed that both are more ambitious than their “good first issue” labels suggest, so I will check the maintainer's scope before choosing and claiming one.
 
-**Unit 6: [one line on the tool work]**
+**Unit 6: Checked my claim with a voice guard and wrote local repo notes**
 
-[2-4 sentences: the voice-guard, the repo-memory file. What broke or
-fell short, and what changed because of it. "Nothing broke" counts when
-it is true - say how you know.]
+I used the voice guard to check my claim before posting it on GitHub. It blocked my first draft because my scope question did not explain what I had read, so I added that context and the revised comment passed. I also wrote `CLAUDE.local.md` with the repo’s rules, navigation files, test references, and AI-policy notes, and kept it out of Git using `.git/info/exclude`. The first navigation exploration incorrectly said the repo was not cloned, so I reran it against my local checkout before summarizing the findings.
 
 **Unit 7: [one line on the tool work]**
 
@@ -88,7 +86,7 @@ I want to learn how to set up an unfamiliar app, understand its navigation, writ
 
 - Tool: I used issue-scout with my fit profile, search strategy, and rubric to scan candidates and directly grade the two AIDJ issues from the course site. I then used the patched rubric to regrade them for Unit 6.
 - What it produced: Both AIDJ #266 and #285 were accepted and rated ambitious. For #266, the difficulty note identified the maintainer's expanded navigation request as the question to clarify in my claim.
-- Difficulties: Acceptance did not guarantee a manageable contribution. The scout's regrade reused previous evidence, and it described the broader audit as expected in the same PR more strongly than the maintainer's wording supported. I also recorded that its maintainer-activity evidence for #285 cited commits alone, which did not satisfy that check.
+- Difficulties: The scout helped me find possible issues, but I still needed to check its reasoning. It reused earlier information and made the suggested navigation audit sound required. For #285, it also used commits as evidence when my rubric required a maintainer comment, review, or merge.
 - What changed: I replaced the original `scope-fits-newcomer` check with `scope-feasible` and added difficulty notes, recording the replacement in scan-notes.md. This lets a single identifiable task pass while recording design uncertainty separately. Because the patch was already installed, the Unit 6 regrade did not change the AIDJ verdicts or difficulty ratings. I reread #266's discussion and narrowed my proposed scope in the claim; I would improve future recommendations by checking issue age, dependencies, and practical fit before treating an accepted issue as a strong choice.
 
 ---
