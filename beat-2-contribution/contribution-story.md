@@ -11,7 +11,7 @@ files and no evidence uploads are part of Assignment 5.
 **Student:** Yumejichi Fujita
 **GitHub Username:** Yumejichi
 **Issue:** https://github.com/lolimmlost/aidj/issues/266
-**Pull Request:** [GitHub PR link, once opened]
+**Pull Request:** Not opened; implementation pending.
 
 One repository, built across units 5 to 8, telling the whole story of your real
 contribution. Fill it as you work, not at the end — the sections below ask for evidence that
@@ -62,10 +62,9 @@ I broadened my fit profile beyond React UI work, updated the scout's Python, Jav
 
 I used the voice guard to check my claim before posting it on GitHub. It blocked my first draft because my scope question did not explain what I had read, so I added that context and the revised comment passed. I also wrote `CLAUDE.local.md` with the repo’s rules, navigation files, test references, and AI-policy notes, and kept it out of Git using `.git/info/exclude`. The first navigation exploration incorrectly said the repo was not cloned, so I reran it against my local checkout before summarizing the findings.
 
-**Unit 7: [one line on the tool work]**
+**Unit 7: Installed ship-gate and tested the manifest commands before implementation**
 
-[2-4 sentences: the ship-gate and your gate manifest. What it produced
-on your real branch, what fought you, what changed because of it.]
+I installed ship-gate and wrote a manifest for unit tests, lint, and the production build, then ran all three successfully on the existing main branch. A fresh terminal selected Node 23 instead of the Node 22 I had used for setup, so I added an explicit Node 22 PATH prefix to each manifest command. The hook test displayed only the ship-gate stop, but checking the voice-guard log confirmed that it had also blocked the same command. This verified the hook wiring only; I have not run the full ship-gate against an implemented fix or opened a PR.
 
 **Unit 8: [one line on the tool work]**
 
@@ -95,26 +94,26 @@ I want to learn how to set up an unfamiliar app, understand its navigation, writ
 
 **Problem Description**
 
-[In your own words, what is broken or missing?]
+The Tasks Center has no entry in the desktop sidebar or mobile menu, making it hard to find. Library Growth has a desktop sidebar link but no mobile menu link.
 
 **Expected Behavior**
 
-[What should happen?]
+Tasks should appear near Downloads in both navigation layouts. Library Growth should also be available from the mobile menu, including in portrait orientation.
 
 **Current Behavior**
 
-[What actually happens?]
+My desktop screenshot shows Downloads and Library Growth but no Tasks link. At a 440 × 956 portrait viewport in Chrome DevTools, the open mobile menu shows neither Tasks nor Library Growth.
 
 **Affected Components**
 
-[Which parts of the codebase are involved?]
+The issue and maintainer's guidance identify `src/components/layout/AppLayout.tsx` for the desktop sidebar and `src/components/ui/mobile-nav.tsx` for the mobile menu and Tasks page title. The issue points to `src/components/dashboard/MoreFeatures.tsx` as the existing Tasks quick-link reference. The approved scope leaves the broader navigation audit and #288 for another PR; the running/failed badge is optional.
 
 **Toolkit**
 
-- Tool:
-- What it produced:
-- Difficulties:
-- What changed:
+- Tool: I used Claude Code for scoped navigation orientation and Chrome/Chrome DevTools to compare the running desktop and mobile layouts, with Codex helping review the evidence.
+- What it produced: Notes identifying the relevant navigation files and screenshots showing the missing links.
+- Difficulties: A narrow desktop browser window showed the mobile layout, so I needed to distinguish viewport behavior from testing on a physical phone.
+- What changed: I captured a wide desktop view and a mobile-emulation view at 440 × 956, and labeled the mobile evidence as browser emulation.
 
 ---
 
@@ -220,65 +219,67 @@ why. A recorded deviation is honest work; silent drift is not.]
 
 ## Testing Strategy
 
-[What observable checks prove the fix: your reproduction steps re-run
-against the built change (before and after), and the repo's own test
-suite or checks with the outcome shown. "Tests pass" with nothing
-observable named is not a strategy.]
+**Baseline checks completed — November 10, 2026**
+
+Before changing application code, I ran the project's documented checks on revision `b81906e73b1e19d63241f0a607fa97751525aaa7` on `main`, using Node.js 22.23.4. These are baseline results, not evidence that a fix works.
+
+| Check | Command | Baseline result |
+|---|---|---|
+| Unit tests | `env PATH="$HOME/.nvm/versions/node/v22.23.4/bin:$PATH" npx vitest run` | 85 test files passed, 3 skipped; 1,041 tests passed and 26 TODO |
+| Lint | `env PATH="$HOME/.nvm/versions/node/v22.23.4/bin:$PATH" npm run lint` | 0 errors, 392 warnings; exit code 0 |
+| Production build | `env PATH="$HOME/.nvm/versions/node/v22.23.4/bin:$PATH" npm run build` | Passed; exit code 0 |
+
+**Planned checks after implementation — not yet performed**
+
+1. Repeat the desktop and 440 × 956 portrait reproduction steps. Verify Tasks appears near Downloads in both layouts and Library Growth appears in the mobile menu; follow the links to verify their destinations. Check Tasks active styling, its collapsed-sidebar title, and the mobile Tasks page title. Capture after screenshots for comparison with the before evidence.
+2. Add an appropriate navigation regression test that fails without the fix, then run the manifest's unit tests, lint, and build again. Record the actual outcomes, including any new warnings or failures, in the test evidence before opening a PR.
 
 **Toolkit**
 
-- Tool:
-- What it produced:
-- Difficulties:
-- What changed:
+- Tool: I ran Vitest, ESLint, and the Vite production build using commands from CONTRIBUTING.md and CI, and recorded them in ship-manifest.md.
+- What it produced: A passing baseline for all three checks before implementation, including the existing lint warnings and test TODOs.
+- Difficulties: Fresh terminals selected Homebrew Node 23 instead of the Node 22 installation used for setup. Lint printed many warnings even though it passed.
+- What changed: I used an explicit Node 22 PATH prefix in every manifest command and checked exit codes instead of treating warnings as failures. No baseline check needed exclusion.
 
 ---
 
 ## Implementation Notes
 
-[A running log, added to as you work. Date each entry. What you
-built, decisions you made when you made them, wrong turns included.]
+**November 10, 2026 — setup, reproduction, and baseline checks; implementation not started**
 
-**[Date]**
-
-[Entry]
-
-**[Date]**
-
-[Entry]
+- Set up the local app and database. A native PostgreSQL process occupied port 5432, so I stopped it before starting the Docker database. The default PostgreSQL image failed with the repository's volume layout; a local Compose override using `postgres:16-alpine` allowed the database to start.
+- Corrected the required environment-variable names. Signup then exposed a missing user table; initializing the local schema with `npm run db -- push` allowed me to create a test account.
+- Captured the desktop and portrait mobile navigation gaps. Added the tested commit hash after repro-check flagged its absence; the regrade passed all five checks.
+- Installed ship-gate and wrote its manifest. Unit tests, lint, and build passed before any navigation changes. Both hooks blocked the wiring test, although only the ship-gate stop appeared in the terminal transcript.
+- No fix has been implemented, no regression test has been added, and no PR has been opened. The full plan-check and ship-gate evaluations remain pending. I retained the manifest's instruction comment for reference, despite the course's cleanup instruction.
 
 **Toolkit**
 
-- Tool:
-- What it produced:
-- Difficulties:
-- What changed:
+- Tool: I used Git, Docker Compose, npm, repro-check, and the ship-gate installer, with Codex helping investigate setup errors and organize the record.
+- What it produced: A running local app, reproducible before screenshots, passing baseline checks, and installed hooks.
+- Difficulties: Database setup, Node version selection, and the single displayed hook stop required investigation before proceeding.
+- What changed: I kept the Compose override and working files local, recorded the setup workarounds, pinned Node selection in the manifest commands, and checked the guard log. Implementation remains pending.
 
 ---
 
 ## Pull Request
 
-**PR Link:** [GitHub PR URL when opened]
+**PR Link:** None; no PR has been opened.
 
-**PR Description:** [what the PR says; much of the content above
-adapts into it]
+**PR Description:** Not drafted yet. The implementation and after-fix evidence are still pending.
 
 **Maintainer Feedback:**
 
-- [Date]: [feedback received, or "none yet"; silence is a normal
-  state and costs you nothing]
-- [Date]: [how you addressed it]
+- November 10, 2026: On the issue thread, the maintainer approved Tasks in desktop/mobile navigation and Library Growth in mobile navigation, leaving the broader audit and #288 for a separate PR. This was feedback on my claim, not a PR review. [Scope approval](https://github.com/lolimmlost/aidj/issues/266#issuecomment-6783080286)
 
-**Status:** [Awaiting review / Iterating / Merged / Closed. The
-status is a fact you record, never a grade: the PR is graded as
-opened.]
+**Status:** Not opened; reproduction and baseline checks complete, implementation pending.
 
 **Toolkit**
 
-- Tool:
-- What it produced:
-- Difficulties:
-- What changed:
+- Tool: Ship-gate is installed for future PR checks; voice guard is also installed.
+- What it produced: The wiring test blocked a command without PR text. It has not produced a full branch verdict or a PR.
+- Difficulties: Only the ship-gate stop appeared in the terminal, so the two-hook test initially looked incomplete.
+- What changed: I checked the voice-guard log and confirmed its stop for the same test. The full gate and PR opening remain pending.
 
 ---
 
@@ -286,25 +287,23 @@ opened.]
 
 **Technical Skills Gained**
 
-[What you learned technically, named concretely.]
+I learned how to bring up an unfamiliar self-hosted app, distinguish creating a database from creating its tables, and record the exact Git revision used for a reproduction. I also learned that a responsive mobile layout can appear in a narrow desktop browser, and that browser emulation should not be described as testing on a real phone.
 
 **Challenges Overcome**
 
-[What was hard and how you solved it; point at the real events, the
-Toolkit blocks above are full of them.]
+To be completed after opening the PR.
 
 **What I'd Do Differently Next Time**
 
-[Reflection on your process.]
+To be completed after opening the PR.
 
 ---
 
 ## Resources Used
 
-[What actually helped, not a reading list. List things this story
-already shows you using: the doc you followed to set the environment
-up, the thread that explained the bug, the person who answered you.
-One real entry beats ten plausible ones.]
-
-- [Link to documentation that helped]
-- [Discussion, issue, or post that helped]
+- [AIDJ issue #266](https://github.com/lolimmlost/aidj/issues/266): the requested navigation changes and expected behavior.
+- [Maintainer's scope approval and setup notes](https://github.com/lolimmlost/aidj/issues/266#issuecomment-6783080286): confirmed the narrow scope, portrait check, and that Navidrome did not need to be reachable for this change.
+- [AIDJ CONTRIBUTING.md at the tested revision](https://github.com/lolimmlost/aidj/blob/b81906e73b1e19d63241f0a607fa97751525aaa7/CONTRIBUTING.md): setup instructions, PR conventions, and test commands.
+- [AIDJ CI workflow at the tested revision](https://github.com/lolimmlost/aidj/blob/b81906e73b1e19d63241f0a607fa97751525aaa7/.github/workflows/main.yml): confirmed the unit test, lint, and build checks.
+- Unit 6 local files `skill/INSTALL.md` and `skill/claude-local-template.md`: voice-guard installation and scoped repo memory.
+- Unit 7 local file `skill/INSTALL.md`: ship-gate installation, manifest requirements, and hook-test troubleshooting.
