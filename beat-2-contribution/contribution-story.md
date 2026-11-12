@@ -191,29 +191,62 @@ No navigation code was changed before capturing these screenshots.
 
 **Analysis**
 
-[Your analysis of the root cause: what is causing the issue, traced
-to the files and functions involved.]
+The Tasks page exists, but `LeftSidebar()` in
+`src/components/layout/AppLayout.tsx` and `MobileNav()` in
+`src/components/ui/mobile-nav.tsx` do not include a Tasks link.
+Library Growth already has a desktop sidebar link, but `MobileNav()`
+does not include it. The mobile `getPageTitle()` function also has
+no case for `/tasks`. These missing navigation entries and title
+mapping are the cause of the issue.
 
 **Proposed Solution**
 
-[High-level description of your fix approach, and what you are
-deliberately NOT changing.]
+I will add a Tasks link near Downloads in the desktop sidebar and
+mobile menu, using the ListTodo icon and the existing navigation
+patterns. I will add Library Growth to the mobile menu and update
+`getPageTitle()` so `/tasks` shows “Tasks” and
+`/dashboard/library-growth` shows “Library Growth” in the mobile header.
+
+I will keep the existing routes and page behavior unchanged. This
+PR will not include the broader navigation audit, the shared route
+registry from #288, or the optional running/failed task badge.
 
 **Implementation Plan**
 
-1. [Modify file X to do Y]
-2. [Add or change Z]
-3. [Update tests]
+1. In `src/components/layout/AppLayout.tsx`, add a Tasks `NavItem`
+   in `LeftSidebar()` near Downloads. Use the ListTodo icon,
+   link to `/tasks`, and mark it active when the current path
+   starts with `/tasks`. Use the existing collapsed-title behavior.
 
-[Record deviations here as they happen: what changed mid-build and
-why. A recorded deviation is honest work; silent drift is not.]
+2. In `src/components/ui/mobile-nav.tsx`, add Tasks near Downloads
+   and Library Growth under Insights in `MobileNav()`. Follow
+   the existing `NavLink` pattern for icons, active styling,
+   and closing the menu after clicking a link.
+
+3. Update `getPageTitle()` in `mobile-nav.tsx` to return “Tasks”
+   for `/tasks` and “Library Growth” for
+   `/dashboard/library-growth`.
+
+4. Add or extend automated navigation tests to check the new
+   links, their destinations, and the mobile page titles.
+   Confirm these tests fail before the fix and pass afterward.
+
+5. Repeat the desktop and 440 × 956 portrait checks. Verify
+   the links open the correct pages, active styling works,
+   collapsed sidebar icons show their titles, and the mobile
+   menu closes after selecting a link. Save after screenshots.
+
+6. Run the manifest’s unit tests, lint, and production build.
+   Record the results and compare them with the baseline.
+
+At the time of the accepted plan-check, the exact automated test file was still undecided. Choosing it remains a follow-up before implementation.
 
 **Toolkit**
 
-- Tool:
-- What it produced:
-- Difficulties:
-- What changed:
+- Tool: I used plan-check to grade `plan.md` and the local draft in `plan-comment.md` against issue #266.
+- What it produced: It accepted the plan. Diagnosis, scope, and test all passed.
+- Difficulties: It accepted the manual checks while the automated test file was still undecided. It also repeated the issue's outdated description of a dashboard Tasks link, even though my checkout does not render MoreFeatures, and described my 440 × 956 viewport as if the maintainer had specified that exact size.
+- What changed: No plan revision was required for acceptance. I kept the automated regression test in the plan because the assignment requires it, and kept the comment local instead of following Claude's suggestion to post it. I will use the current code and my actual test evidence when implementing and reporting the fix.
 
 ---
 
