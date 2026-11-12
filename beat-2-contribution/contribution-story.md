@@ -227,9 +227,12 @@ registry from #288, or the optional running/failed task badge.
    for `/tasks` and “Library Growth” for
    `/dashboard/library-growth`.
 
-4. Add or extend automated navigation tests to check the new
-   links, their destinations, and the mobile page titles.
-   Confirm these tests fail before the fix and pass afterward.
+4. Add `src/components/ui/__tests__/mobile-nav.test.tsx` using
+   Vitest and React Testing Library, following the repo’s existing
+   test style. Check that the mobile menu includes Tasks and
+   Library Growth with the correct destinations, and that each
+   page shows the correct mobile header title. Confirm these tests
+   fail before the fix and pass afterward.
 
 5. Repeat the desktop and 440 × 956 portrait checks. Verify
    the links open the correct pages, active styling works,
@@ -239,7 +242,10 @@ registry from #288, or the optional running/failed task badge.
 6. Run the manifest’s unit tests, lint, and production build.
    Record the results and compare them with the baseline.
 
-At the time of the accepted plan-check, the exact automated test file was still undecided. Choosing it remains a follow-up before implementation.
+After plan-check accepted the plan, I selected
+`src/components/ui/__tests__/mobile-nav.test.tsx` for the focused
+mobile navigation tests. Desktop behavior will also be checked
+manually as described in step 5.
 
 **Toolkit**
 
