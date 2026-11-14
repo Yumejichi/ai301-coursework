@@ -66,10 +66,9 @@ I used the voice guard to check my claim before posting it on GitHub. It blocked
 
 I installed ship-gate and wrote a manifest for unit tests, lint, and the production build, using an explicit Node 22 PATH because fresh terminals selected Node 23. On November 13, 2026, the gate passed my branch, but a later run rejected the AI disclosure heading even though AIDJ does not require that heading, so I corrected the Repository standards rubric to accept accurate disclosure anywhere unless the repo specifies a location. When opening the PR, Claude passed the description through shell substitution, which the hook read literally and blocked; switching to `--body-file` let it read the actual description. The final hook run passed all three project checks and all six PR prechecks, and Claude Code opened PR #408.
 
-**Unit 8: [one line on the tool work]**
+**Unit 8: Used a PR monitor and playbook to decide when to wait and reply**
 
-[2-4 sentences: the PR-monitor and your playbook. What it read, what it
-drafted, what you did with the draft.]
+On November 13–14, 2026, I installed the PR monitor and wrote a playbook for replies, waiting, nudges, and closing a PR. Research with Codex found no eligible outside-contributor examples among 161 merged PRs, so I recorded a provisional 14-day wait instead of claiming it was the repo’s usual response time. The monitor initially said it was using a “polite nudge form,” which was confusing, but its actual draft told me to wait, so I kept it off the thread. After PR #408 merged, I reran the monitor, used its thank-you suggestion to write a short reply in my own words, and posted it through Claude Code while keeping the original monitor draft unchanged.
 
 ---
 
