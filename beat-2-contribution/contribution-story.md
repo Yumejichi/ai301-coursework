@@ -11,7 +11,7 @@ files and no evidence uploads are part of Assignment 5.
 **Student:** Yumejichi Fujita
 **GitHub Username:** Yumejichi
 **Issue:** https://github.com/lolimmlost/aidj/issues/266
-**Pull Request:** Not opened; implementation pending.
+**Pull Request:** https://github.com/lolimmlost/aidj/pull/408
 
 One repository, built across units 5 to 8, telling the whole story of your real
 contribution. Fill it as you work, not at the end — the sections below ask for evidence that
@@ -62,9 +62,9 @@ I broadened my fit profile beyond React UI work, updated the scout's Python, Jav
 
 I used the voice guard to check my claim before posting it on GitHub. It blocked my first draft because my scope question did not explain what I had read, so I added that context and the revised comment passed. I also wrote `CLAUDE.local.md` with the repo’s rules, navigation files, test references, and AI-policy notes, and kept it out of Git using `.git/info/exclude`. The first navigation exploration incorrectly said the repo was not cloned, so I reran it against my local checkout before summarizing the findings.
 
-**Unit 7: Installed ship-gate and tested the manifest commands before implementation**
+**Unit 7: Checked my navigation fix with ship-gate and corrected a disclosure rule**
 
-I installed ship-gate and wrote a manifest for unit tests, lint, and the production build, then ran all three successfully on the existing main branch. A fresh terminal selected Node 23 instead of the Node 22 I had used for setup, so I added an explicit Node 22 PATH prefix to each manifest command. The hook test displayed only the ship-gate stop, but checking the voice-guard log confirmed that it had also blocked the same command. This verified the hook wiring only; I have not run the full ship-gate against an implemented fix or opened a PR.
+I installed ship-gate and wrote a manifest for unit tests, lint, and the production build, using an explicit Node 22 PATH because fresh terminals selected Node 23. On November 13, 2026, the gate passed my branch, but a later run rejected the AI disclosure heading even though AIDJ does not require that heading, so I corrected the Repository standards rubric to accept accurate disclosure anywhere unless the repo specifies a location. When opening the PR, Claude passed the description through shell substitution, which the hook read literally and blocked; switching to `--body-file` let it read the actual description. The final hook run passed all three project checks and all six PR prechecks, and Claude Code opened PR #408.
 
 **Unit 8: [one line on the tool work]**
 
@@ -268,17 +268,50 @@ Before changing application code, I ran the project's documented checks on revis
 | Lint | `env PATH="$HOME/.nvm/versions/node/v22.23.4/bin:$PATH" npm run lint` | 0 errors, 392 warnings; exit code 0 |
 | Production build | `env PATH="$HOME/.nvm/versions/node/v22.23.4/bin:$PATH" npm run build` | Passed; exit code 0 |
 
-**Planned checks after implementation — not yet performed**
+**After-fix checks — recorded November 13, 2026**
 
-1. Repeat the desktop and 440 × 956 portrait reproduction steps. Verify Tasks appears near Downloads in both layouts and Library Growth appears in the mobile menu; follow the links to verify their destinations. Check Tasks active styling, its collapsed-sidebar title, and the mobile Tasks page title. Capture after screenshots for comparison with the before evidence.
-2. Add an appropriate navigation regression test that fails without the fix, then run the manifest's unit tests, lint, and build again. Record the actual outcomes, including any new warnings or failures, in the test evidence before opening a PR.
+I checked two observable outcomes: the navigation links open the intended pages,
+and the navigation reflects the current page through its active styling and
+mobile header title. On mobile, selecting either new link also closes the drawer.
+
+- Desktop: Tasks appears below Downloads and opens `/tasks`, with active styling.
+  The collapsed sidebar shows a “Tasks” tooltip. The existing Library Growth link
+  still opens `/dashboard/library-growth` and is highlighted.
+- Chrome portrait emulation at 440 × 956: Tasks and Library Growth appear in the
+  drawer, open the correct pages, and show the correct header titles and active
+  styling. I checked menu closing; Codex independently clicked both links and
+  confirmed that each closes the drawer. This was not a physical-phone test.
+- Automated regression: Codex added
+  `src/components/ui/__tests__/mobile-nav.test.tsx` using Vitest and React Testing
+  Library. Before my fix, the two Downloads control checks passed and the four
+  Tasks/Library Growth checks failed. After my changes, the same six tests passed;
+  I also ran them myself. These tests check mobile link destinations and header
+  titles, while desktop layout and tooltips were checked manually.
+
+| Check | After-fix result | Comparison with baseline |
+|---|---|---|
+| Unit tests | 86 files passed, 3 skipped; 1,047 tests passed, 26 TODO; exit 0 | One additional file and six additional passing tests; skips and TODOs unchanged |
+| Lint | 0 errors, 392 warnings; exit 0 | Same error and warning totals |
+| Production build | Passed; exit 0 | Passed before and after; warnings remain |
+
+I ran the same three commands listed in the baseline table with the Node 22 PATH
+prefix. The build completed its client and server stages in 13.94s and 4.75s.
+I saved output excerpts and comparisons in the clone's local `test_evidence.md`.
+Ship-gate subsequently passed all three project checks and all six PR prechecks on November 13. At the last check, the upstream GitHub Actions run reported `action_required`, not a passing CI result.
+
+**Before and after evidence**
+
+- [Desktop before](evidence/desktop-sidebar-before.png) → [Tasks after](evidence/desktop-tasks-navigation-after.png)
+- [Mobile before](evidence/mobile-nav-before.png) → [Tasks at 440 × 956](evidence/mobile-tasks-440x956-after.png) and [Library Growth at 440 × 956](evidence/mobile-library-growth-440x956-after.png)
+- [Collapsed Tasks tooltip](evidence/desktop-tasks-collapsed-tooltip-after.png)
+- [Existing desktop Library Growth](evidence/desktop-library-growth-navigation-after.png)
 
 **Toolkit**
 
-- Tool: I ran Vitest, ESLint, and the Vite production build using commands from CONTRIBUTING.md and CI, and recorded them in ship-manifest.md.
-- What it produced: A passing baseline for all three checks before implementation, including the existing lint warnings and test TODOs.
-- Difficulties: Fresh terminals selected Homebrew Node 23 instead of the Node 22 installation used for setup. Lint printed many warnings even though it passed.
-- What changed: I used an explicit Node 22 PATH prefix in every manifest command and checked exit codes instead of treating warnings as failures. No baseline check needed exclusion.
+- Tool: Vitest and React Testing Library for the mobile regression tests, Chrome for manual reproduction checks, and ESLint and Vite for the manifest checks; Codex helped write tests and review evidence.
+- What it produced: Four failing checks before the fix, six passing checks afterward, screenshots of the working navigation, and passing full tests, lint, and build results.
+- Difficulties: My terminal still selected Node 23, so I needed the Node 22 PATH prefix. Lint reported 392 warnings even though it passed. Automated tests cover mobile links and titles, not desktop layout or real browser navigation.
+- What changed: I checked exit codes and compared results with the baseline, then used browser checks for layout, tooltips, and drawer closing. After reviewing coverage, I kept the mobile tests in a separate commit and documented the manual desktop checks in the PR.
 
 ---
 
@@ -292,33 +325,66 @@ Before changing application code, I ran the project's documented checks on revis
 - Installed ship-gate and wrote its manifest. Unit tests, lint, and build passed before any navigation changes. Both hooks blocked the wiring test, although only the ship-gate stop appeared in the terminal transcript.
 - No fix has been implemented, no regression test has been added, and no PR has been opened. The full plan-check and ship-gate evaluations remain pending. I retained the manifest's instruction comment for reference, despite the course's cleanup instruction.
 
+**November 12, 2026 — navigation fix and focused regression checks**
+
+- Worked on `fix/266-tasks-navigation`. Codex added the agreed mobile test file
+  first and confirmed the four expected failures before I edited navigation.
+- I added `ListTodo` and a Tasks `NavItem` in `LeftSidebar()` in
+  `src/components/layout/AppLayout.tsx`, following Downloads and keeping the
+  existing active-state and collapsed-tooltip behavior.
+- I added Tasks and Library Growth `NavLink` entries in `MobileNav()` in
+  `src/components/ui/mobile-nav.tsx`, plus both `getPageTitle()` cases.
+- During review, Codex caught that I had swapped the Music Identity and Library
+  Growth destinations. I corrected them and restored the existing Music Identity
+  link. Library Growth's active check matches the existing desktop pattern.
+- The same six mobile tests then passed. The change stays within the approved
+  scope: no full navigation audit, shared route registry, optional task badge,
+  or changes to page behavior. No implementation-plan scope change was needed.
+
+**November 13, 2026 — evidence and full-check results recorded**
+
+- Saved the after screenshots and recorded passing unit tests, lint, and build
+  results in local `test_evidence.md`, compared with the November 10 baseline.
+- Desktop and mobile browser checks passed, including the Tasks tooltip and
+  automatic mobile drawer closing. Details and screenshot links are above.
+- Committed the navigation changes as `b76c8e7` and the tests separately as
+  `2e408eb`, then pushed `fix/266-tasks-navigation` to my fork. The unrelated
+  `docs/backlog.md` difference stayed uncommitted and outside the PR.
+- Corrected the overly strict AI-disclosure heading rule, reran ship-gate, and
+  opened [PR #408](https://github.com/lolimmlost/aidj/pull/408) through Claude Code
+  after the final hook run passed at 4:52 PM PT.
+- Added screenshots to the PR and posted an
+  [issue update](https://github.com/lolimmlost/aidj/issues/266#issuecomment-6869051016)
+  with the PR link and local check results.
+
 **Toolkit**
 
-- Tool: I used Git, Docker Compose, npm, repro-check, and the ship-gate installer, with Codex helping investigate setup errors and organize the record.
-- What it produced: A running local app, reproducible before screenshots, passing baseline checks, and installed hooks.
-- Difficulties: Database setup, Node version selection, and the single displayed hook stop required investigation before proceeding.
-- What changed: I kept the Compose override and working files local, recorded the setup workarounds, pinned Node selection in the manifest commands, and checked the guard log. Implementation remains pending.
+- Tool: Git for the contribution branch, my editor for implementation, and Codex for test creation, code review, browser verification, and evidence organization.
+- What it produced: A focused desktop/mobile navigation fix, a six-check mobile regression test file, and a record of the before/after results.
+- Difficulties: I temporarily swapped two mobile link destinations while copying the existing pattern. I also questioned whether mobile-only automated coverage was enough.
+- What changed: I corrected the destinations, kept the existing Music Identity behavior, and verified both layouts manually. After reviewing coverage, I included the mobile tests in a separate commit for easier maintainer review and documented manual desktop testing.
 
 ---
 
 ## Pull Request
 
-**PR Link:** None; no PR has been opened.
+**PR Link:** https://github.com/lolimmlost/aidj/pull/408
 
-**PR Description:** Not drafted yet. The implementation and after-fix evidence are still pending.
+**PR Description:** Fixes #266 by adding Tasks under Downloads in the desktop sidebar and mobile menu, adding Library Growth to the mobile menu, and adding both mobile page titles. The description includes before/after screenshots, the six navigation tests (two passed and four failed before the fix; all six passed afterward), manual desktop and portrait checks, and passing local unit tests, lint, and build results. It explains that I implemented the navigation changes, used Claude Code and Codex for understanding and review, and used Codex to prepare tests; both Codex and I ran tests and checked navigation. The fix and tests are in separate commits, and the broader audit, #288, and optional badge remain outside the change.
 
 **Maintainer Feedback:**
 
 - November 10, 2026: On the issue thread, the maintainer approved Tasks in desktop/mobile navigation and Library Growth in mobile navigation, leaving the broader audit and #288 for a separate PR. This was feedback on my claim, not a PR review. [Scope approval](https://github.com/lolimmlost/aidj/issues/266#issuecomment-6783080286)
+- November 13, 2026: I posted an [update on the issue](https://github.com/lolimmlost/aidj/issues/266#issuecomment-6869051016) linking the PR and reporting local validation. No PR review feedback had arrived at the time of this update.
 
-**Status:** Not opened; reproduction and baseline checks complete, implementation pending.
+**Status:** Awaiting review.
 
 **Toolkit**
 
-- Tool: Ship-gate is installed for future PR checks; voice guard is also installed.
-- What it produced: The wiring test blocked a command without PR text. It has not produced a full branch verdict or a PR.
-- Difficulties: Only the ship-gate stop appeared in the terminal, so the two-hook test initially looked incomplete.
-- What changed: I checked the voice-guard log and confirmed its stop for the same test. The full gate and PR opening remain pending.
+- Tool: Ship-gate and pr-precheck to check the branch, plan, evidence, and description; Claude Code and GitHub CLI to open the PR through the hooks.
+- What it produced: The final hook run on November 13 at 4:52 PM PT passed unit tests, lint, build, and all six PR prechecks, then PR #408 opened against `lolimmlost/aidj:main` with only the three intended files.
+- Difficulties: One run required a disclosure heading that the repository does not require. During PR creation, Claude also used `--body` with shell substitution, and the hook read `$(cat pr_draft.md)` literally instead of the description.
+- What changed: I corrected the disclosure rubric and clarified AI's testing role. Claude retried using a body file, the hook ran successfully, and I checked the published PR and added screenshots; the unrelated backlog change stayed out of the PR.
 
 ---
 
