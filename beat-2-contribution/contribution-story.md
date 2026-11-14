@@ -356,6 +356,8 @@ Ship-gate subsequently passed all three project checks and all six PR prechecks 
   [issue update](https://github.com/lolimmlost/aidj/issues/266#issuecomment-6869051016)
   with the PR link and local check results.
 
+**November 14, 2026:** The maintainer approved and merged PR #408 after testing the navigation on desktop and a phone in portrait. They said the screenshots and separate test commit helped with the review. I ran the PR monitor, rewrote its thank-you suggestion in my own words, and posted my reply through Claude Code.
+
 **Toolkit**
 
 - Tool: Git for the contribution branch, my editor for implementation, and Codex for test creation, code review, browser verification, and evidence organization.
@@ -398,11 +400,11 @@ I learned how to bring up an unfamiliar self-hosted app, distinguish creating a 
 
 **Challenges Overcome**
 
-To be completed after opening the PR.
+Getting the app running took more work than I expected. I resolved a PostgreSQL port conflict, used a compatible database image, corrected environment-variable names, and created the missing tables before signup worked. A new terminal also selected the wrong Node version, so I updated the check commands to use Node 22 explicitly. These steps helped me reproduce the navigation issue before changing the code.
 
 **What I'd Do Differently Next Time**
 
-To be completed after opening the PR.
+Next time, I would record setup commands, versions, and the tested commit as I go. I would also run the project’s checks before changing any code, so I can compare the results afterward. I would check AI suggestions against the code and maintainer’s comments before relying on them.
 
 ---
 
@@ -414,3 +416,4 @@ To be completed after opening the PR.
 - [AIDJ CI workflow at the tested revision](https://github.com/lolimmlost/aidj/blob/b81906e73b1e19d63241f0a607fa97751525aaa7/.github/workflows/main.yml): confirmed the unit test, lint, and build checks.
 - Unit 6 local files `skill/INSTALL.md` and `skill/claude-local-template.md`: voice-guard installation and scoped repo memory.
 - Unit 7 local file `skill/INSTALL.md`: ship-gate installation, manifest requirements, and hook-test troubleshooting.
+- CodePath Unit 8 PR-monitor materials — installation instructions and the playbook template helped me set response rules, decide when to wait, and prepare a thank-you after the merge.
